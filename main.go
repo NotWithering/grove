@@ -43,6 +43,8 @@ func main() {
 					if optionDebounce() {
 						return
 					}
+				default:
+					fmt.Printf(groveError, fmt.Sprintf("option --%s unknown", option))
 				}
 			} else {
 				// ex. -h
@@ -55,6 +57,8 @@ func main() {
 						if optionDebounce() {
 							return
 						}
+					default:
+						fmt.Printf(groveError, fmt.Sprintf("option -%s unknown", string(option)))
 					}
 				}
 			}
