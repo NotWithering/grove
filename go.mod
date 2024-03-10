@@ -1,4 +1,4 @@
-module github.com/NotWithering/grove
+module github.com/notwithering/grove
 
 go 1.22.0
 

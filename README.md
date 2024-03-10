@@ -1,10 +1,10 @@
-# Grove [![MIT License](https://img.shields.io/badge/License-MIT-a10b31)](https://github.com/NotWithering/grove/blob/main/LICENSE)
+# Grove [![MIT License](https://img.shields.io/badge/License-MIT-a10b31)](https://github.com/notwithering/grove/blob/main/LICENSE)
 
 **Grove** waits for a file to be written to then runs a user specified command
 
 ## Installing
 ```bash
-go install github.com/NotWithering/grove@latest
+go install github.com/notwithering/grove@latest
 ```
 
 ## Usage
