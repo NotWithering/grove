@@ -34,6 +34,9 @@ func main() {
 
 	// parsing [options...]
 	for {
+		if len(args) == 0 {
+			break
+		}
 		arg := args[0]
 		if arg, found := strings.CutPrefix(arg, "-"); found {
 			// ex. --help
