@@ -33,7 +33,8 @@ func main() {
 	}
 
 	// parsing [options...]
-	for _, arg := range args {
+	for {
+		arg := args[0]
 		if arg, found := strings.CutPrefix(arg, "-"); found {
 			// ex. --help
 			if option, found := strings.CutPrefix(arg, "-"); found {
