@@ -18,9 +18,7 @@ const (
 var (
 	args []string
 
-	debounce int    = 0
-	name     string = "bash"
-	nameargs string = "-c"
+	debounce int = 0
 )
 
 func main() {
@@ -49,14 +47,6 @@ func main() {
 					if optionDebounce() {
 						return
 					}
-				case "name":
-					if optionName() {
-						return
-					}
-				case "args":
-					if optionArgs() {
-						return
-					}
 				default:
 					fmt.Printf(groveError, fmt.Sprintf("option --%s unknown", option))
 				}
@@ -69,14 +59,6 @@ func main() {
 						return
 					case 'd':
 						if optionDebounce() {
-							return
-						}
-					case 'n':
-						if optionName() {
-							return
-						}
-					case 'a':
-						if optionArgs() {
 							return
 						}
 					default:
@@ -126,7 +108,9 @@ func main() {
 					continue
 				}
 				go func() {
-					cmd := exec.Command(name, nameargs, strings.Join(args, " "))
+					name := args[0]
+					args = args[1:]
+					cmd := exec.Command(name, strings.Join(args, " "))
 					cmd.Stderr = os.Stderr
 					cmd.Stdin = os.Stdin
 					cmd.Stdout = os.Stdout

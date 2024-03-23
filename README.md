@@ -13,10 +13,8 @@ $ grove --help
 ```
 ```
 Usage: grove [options...] <file> [command...]
- -a, --args <arguments>  Arguments to use for name option (default: -c)
  -d, --debounce <number> Make the program wait <number> seconds between commands
  -h, --help              Get help and usage for grove
- -n, --name              Command to use for execution (default: bash)
 ```
 
 ## Example
