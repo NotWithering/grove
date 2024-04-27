@@ -1,10 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
@@ -15,61 +15,14 @@ const (
 	fsnotifyError string = "grove: fsnotify: %s\n"
 )
 
-var (
-	args []string
-
-	debounce int = 0
-)
-
 func main() {
-	args = os.Args
-	args = args[1:] // trim $0
+	flag.Usage = optionHelp
+	flag.Parse()
+	args := flag.Args()
 
 	if len(args) == 0 {
 		fmt.Printf(groveError, "try 'grove --help' for more information")
 		return
-	}
-
-	// parsing [options...]
-	for {
-		if len(args) == 0 {
-			break
-		}
-		arg := args[0]
-		if arg, found := strings.CutPrefix(arg, "-"); found {
-			// ex. --help
-			if option, found := strings.CutPrefix(arg, "-"); found {
-				switch option {
-				case "help":
-					optionHelp()
-					return
-				case "debounce":
-					if optionDebounce() {
-						return
-					}
-				default:
-					fmt.Printf(groveError, fmt.Sprintf("option --%s unknown", option))
-				}
-			} else {
-				// ex. -h
-				for _, option := range arg {
-					switch option {
-					case 'h':
-						optionHelp()
-						return
-					case 'd':
-						if optionDebounce() {
-							return
-						}
-					default:
-						fmt.Printf(groveError, fmt.Sprintf("option -%s unknown", string(option)))
-					}
-				}
-			}
-			args = args[1:] // trim [options...]
-		} else {
-			break
-		}
 	}
 
 	watcher, err := fsnotify.NewWatcher()
@@ -108,15 +61,17 @@ func main() {
 					continue
 				}
 				go func() {
-					name := args[0]
-					args = args[1:]
-					cmd := exec.Command(name, strings.Join(args, " "))
-					cmd.Stderr = os.Stderr
-					cmd.Stdin = os.Stdin
-					cmd.Stdout = os.Stdout
+					for _, command := range args {
+						go func(command string) {
+							cmd := exec.Command("sh", "-c", command)
+							cmd.Stderr = os.Stderr
+							cmd.Stdin = os.Stdin
+							cmd.Stdout = os.Stdout
 
-					if err := cmd.Run(); err != nil {
-						fmt.Printf(groveError, err)
+							if err := cmd.Run(); err != nil {
+								fmt.Printf(groveError, err)
+							}
+						}(command)
 					}
 				}()
 			}
