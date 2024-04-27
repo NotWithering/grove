@@ -13,13 +13,13 @@ $ grove --help
 ```
 ```
 Usage: grove [options...] <file> [command...]
- -d, --debounce <number> Make the program wait <number> seconds between commands
- -h, --help              Get help and usage for grove
+  -d, --debounce <number> Make the program wait <number> seconds between commands
+  -h, --help              Get help and usage for grove
 ```
 
 ## Example
 ```bash
-$ grove -d 1 test.txt echo hello &
+$ grove -d 1 test.txt "echo hello" &
 $ echo "yoo" > test.txt
 hello
 ```
